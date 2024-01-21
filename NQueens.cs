@@ -22,29 +22,30 @@ public static class NQueens
             {
                 int rank = position[file];
 
+                // check if queen in the same row || queen in the top-left to bottom-right || top-right to bottom-left
                 if (position.Take(file).Select((r, c) => r == rank || rank - r == file - c ||  rank - r == c - file).Any(x => x))
                 {
-                    while (position[file] >= n - 1)
+                    while (position[file] >= n - 1) //has been placed in the last row or beyond
                     {
-                        position[file] = 0;
+                        position[file] = 0; //reset to the first row
 
-                        if (--file < 0)
+                        if (--file < 0) // and there are no more solutions to find
                             yield break;
                     }
 
-                    position[file] += 1;
+                    position[file] += 1; //different positions for the queen
                 }
-                else
+                else // next queen (current queen in the valid position)
                     file += 1;
             }
 
-            yield return position.ToArray();
+            yield return position.ToArray(); // return solution
 
             for (int i = n - 1; i >= 0; --i)
                 if (++position[i] >= n)
-                    position[i] = 0;
+                    position[i] = 0; // reset to the first row
                 else
-                    break;
+                    break; //valid position
         }
     }
 }
